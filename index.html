@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IoT-Based Robot Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #e3f2fd;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      color: #1a237e;
+    }
+
+    .sidebar {
+      width: 270px;
+      background: linear-gradient(to bottom right, #3949ab, #7e57c2);
+      padding: 40px 25px;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+    }
+
+    .sidebar img {
+      width: 60px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 2px solid #ede7f6;
+    }
+
+    .sidebar h1 {
+      font-size: 1.8em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #e8eaf6;
+      font-weight: 400;
+      margin-bottom: 18px;
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background 0.3s ease, font-weight 0.3s;
+      cursor: pointer;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background-color: rgba(232, 234, 246, 0.3);
+      font-weight: 600;
+      color: #311b92;
+    }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      background-color: #ffffff;
+      box-shadow: inset 0 1px 4px rgba(94, 53, 177, 0.15);
+    }
+
+    .hero {
+      position: relative;
+      height: 340px;
+      background-image: url('https://images.unsplash.com/photo-1581091012184-7f2310fc5a3c');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(48, 63, 159, 0.5);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      color: #ede7f6;
+      padding: 0 20px;
+    }
+
+    .hero h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero p {
+      font-style: italic;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .section {
+      padding: 50px 40px;
+      text-align: center;
+    }
+
+    .section h3 {
+      color: #3949ab;
+      font-size: 1.9rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      text-shadow: 0 1px 2px rgba(62, 81, 181, 0.3);
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 900px;
+      margin: 0 auto;
+      color: #1a237e;
+    }
+
+    .section img {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-photos {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .team-member {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 120px;
+    }
+
+    .team-member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3949ab;
+      margin-bottom: 10px;
+    }
+
+    .team-member span {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #311b92;
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.95rem;
+      color: #512da8;
+    }
+
+    .faq-item {
+      text-align: left;
+      max-width: 800px;
+      margin: 0 auto 30px auto;
+    }
+
+    .faq-item h4 {
+      color: #1a237e;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .faq-item p {
+      margin-left: 15px;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #3949ab;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <img src="https://i.postimg.cc/76ByxMS2/494820416-682609357721774-8007124701720224671-n.jpg" alt="Robot Logo" />
+    <h1>EDUFEEDBOT</h1>
+    <a class="active" onclick="showPage('home')">Home</a>
+    <a onclick="showPage('history')">History</a>
+    <a onclick="showPage('team')">Team</a>
+    <a onclick="showPage('faq')">FAQ</a>
+  </div>
+
+  <div class="main" id="main-content"></div>
+
+  <script>
+    const pages = {
+      home: `
+        <div class="hero">
+          <div class="hero-content">
+            <h2>DEVELOPMENT OF IOT-BASED ROBOT FOR REAL-TIME CUSTOMER FEEDBACK</h2>
+            <p>Sentiment Analysis Using Large Language Models</p>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Project Overview</h3>
+          <p>
+            This study explores the integration of Artificial Intelligence (AI) and Large Language Models (LLMs) to revolutionize how organizations collect and interpret customer feedback.
+          </p>
+        </div>
+      `,
+      history: `
+        <div class="section">
+          <h3>How would you describe the mission of this project to a friend?</h3>
+          <p>We're building a smart robot that listens to customer feedback and understands their emotions using artificial intelligence</p>
+        </div>
+        <div class="section">
+          <h3>A Brief History</h3>
+          <p>The idea for this project emerged from the need for more intuitive and insightful ways to collect customer feedback </p>
+        </div>
+        <div class="section">
+          <h3>Deployment of the EDUFEEDBOT</h3>
+          <p>Showcasing the device in University of San Agustin.</p>
+          <img src="https://i.postimg.cc/jj57Rf3J/20250430-144933.jpg" <div class="section">
+          <h3>Where we are today</h3>
+          <p>Our team has successfully assembled a working prototype that includes ESP32 microcontrollers </p>
+        </div>
+        <div class="section footer">
+          <p>Email: @usa.edu.ph | Address: University of San Agustin Iloilo City, PH | Phone: +63-xxx-xxx-xxxx</p>
+        </div>
+      `,
+      team: `
+        <div class="section">
+          <h3>Meet the Team</h3>
+          <h3>EDUFEEDBOT'S Team Members</h3>
+          <div class="team-photos">
+            <div class="team-member">
+              <img src="https://i.postimg.cc/gj7tybFB/image-2025-05-25-000646320.png" alt="Member 1">
+              <span>Lourdes Julliete Gumawa</span>
+        <span>(1st Author)</span>
+            </div>
+            <div class="team-member">
+              <img src="https://i.postimg.cc/tJBvfWsC/image-2025-05-25-001848203.png" alt="Member 2">
+        
+              <span>Jeanbe Lomugdang</span>
+        <span>(2nd Author)</span>
+            </div>
+            <div class="team-member">
+              <img src="https://i.postimg.cc/s2TQbxv7/image-2025-05-25-002638919.png" alt="Member 3">
+       
+              <span>Allen Gem Bermejo</span>
+         <span>(3rd Author)</span>
+            </div>
+            <div class="team-member">
+              <img src="https://i.postimg.cc/1Xx1PF4z/image-2025-05-25-002750005.png" alt="Member 4">
+
+              <span>Engr. Glenda Guanzon</span>
+        <span>(Adviser/Mentor)</span>
+            </div>
+            <div class="team-member">
+              <img src="https://i.postimg.cc/FFP7GzTP/image-2025-05-25-002853524.png" alt="Member 5">
+
+              <span>Engr. Kent Lexter Co</span>
+        <span>(Mentor)</span>
+            </div>
+          </div>
+        </div>
+      `,
+      faq: `
+        <div class="section">
+          <h3>FAQ</h3>
+          <div class="faq-item">
+            <h4>What is the purpose of this robot?</h4>
+            <p>To gather real-time feedback from users and interpret sentiment using LLMs for actionable insights.</p>
+          </div>
+          <div class="faq-item">
+            <h4>What technologies are used?</h4>
+            <p>The project uses ESP32 microcontrollers, cloud-based data storage, and AI models for sentiment analysis.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Who is this robot for?</h4>
+            <p>Businesses, universities, and service centers who wish to better understand their audience's feedback.</p>
+          </div>
+          <div class="faq-item">
+            <h4>How is the data analyzed?</h4>
+            <p>Customer responses are sent to a backend where large language models analyze the sentiment in real time.</p>
+          </div>
+        </div>
+      `
+    };
+
+    function showPage(page) {
+      document.getElementById('main-content').innerHTML = pages[page];
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('.sidebar a').forEach(a => {
+        if (a.textContent.toLowerCase() === page) {
+          a.classList.add('active');
+        }
+      });
+    }
+
+    showPage('home');
+  </script>
+
+</body>
+</html>
